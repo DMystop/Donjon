@@ -7,9 +7,9 @@ using namespace std;
 void Introduction();
 void PNJ();
 //void Event();
-void ActionsPlayer(int _scytheAttack, int*& _actualPlayerLife, int _monsterAttack, int*& _healPotion, int _healPotionPower, int _maxPlayerLife, int*& _monsterPv);
-void PlayerAttackMonster(int _weaponUsed, int _monsterPv);
-void MonsterAttackPlayer(int _actualPlayerLife, int _monsterAttack);
+void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack, int& _healPotion, int _healPotionPower, int _maxPlayerLife, int& _monsterPv);
+void PlayerAttackMonster(int _weaponUsed, int& _monsterPv);
+void MonsterAttackPlayer(int& _actualPlayerLife, int _monsterAttack);
 void Healing(int _actualPlayerLife, int _healPotion, int _healPotionPower, int _maxPlayerLife);
 void Display(string _storyText);
 
@@ -18,13 +18,13 @@ void Display(string _storyText);
 int main()
 {
 	int _healPotion = 3;
-	int _healPotionPower = 20;
+	int _healPotionPower = 30;
 	int _maxPlayerLife = 100;
 	int _actualPlayerLife = 100;
 	int _monsterPv = 100;
 	int _scytheAttack = 30;
 	int _monsterAttack = 20;
-	bool _playerAnswer=0;
+	bool _playerAnswer = 0;
 	string _storyText;
 
 	Introduction();
@@ -62,7 +62,7 @@ void PNJ()
 	Display("Bonjour \x85\ vous tr\x8As cher. Que faites-vous l\x85\ tout seul ?");
 	Display("C’est tr\x8As dangereux dans le coin. Es-tu l\x85\ pour le dragon ?");
 	Display("Je te conseille de tourner \x85\ tout droit pour le rencontrer.");
-	Display("Au revoir mon p\x27\ tit bonhomme.");
+	Display("Au revoir mon p\x27\ tit bonhomme. Va bien crever ! ^^ ");
 	Display("\n");
 }
 
@@ -76,10 +76,10 @@ void PNJ()
 
 #pragma endregion
 
-void ActionsPlayer(int _scytheAttack, int*& _actualPlayerLife, int _monsterAttack, int*& _healPotion, int _healPotionPower, int _maxPlayerLife, int*& _monsterPv)
+void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack, int& _healPotion, int _healPotionPower, int _maxPlayerLife, int& _monsterPv)
 {
 	int _action;
-	bool _WantToContinue = true;
+	bool _wantToContinue = true;
 	do
 	{
 		Display("Que voulez-vous faire ?");
@@ -87,38 +87,35 @@ void ActionsPlayer(int _scytheAttack, int*& _actualPlayerLife, int _monsterAttac
 		switch (_action)
 		{
 		case 1:
-			PlayerAttackMonster(_scytheAttack, *_monsterPv);
-			_WantToContinue = false;
+			PlayerAttackMonster(_scytheAttack, _monsterPv);
+			_wantToContinue = false;
 			break;
 		case 2:
-			Healing(*_actualPlayerLife, *_healPotion, _healPotionPower, _maxPlayerLife);
-			_WantToContinue = false;
+			Healing(_actualPlayerLife, _healPotion, _healPotionPower, _maxPlayerLife);
+			_wantToContinue = false;
 			break;
 
-		default: _WantToContinue;
-		break;
+		default: _wantToContinue;
+			break;
 
 		}
-
-	} while (_WantToContinue || *_monsterPv > 0);
-	
-
-
+		MonsterAttackPlayer(_actualPlayerLife, _monsterAttack);
+	} while (_wantToContinue || _monsterPv > 0);
 }
 
-void PlayerAttackMonster(int _weaponUsed, int _monsterPv)
+void PlayerAttackMonster(int _weaponUsed, int& _monsterPv)
 {
-	_monsterPv = _monsterPv - _weaponUsed;
+	_monsterPv -= _weaponUsed;
 	cout << "Le gobelin perds " << _weaponUsed << " pv ! " << endl;
 	cout << "Il reste " << _monsterPv << " pv au gobelin" << endl;
 }
 
-void MonsterAttackPlayer(int _actualPlayerLife, int _monsterAttack)
+void MonsterAttackPlayer(int& _actualPlayerLife, int _monsterAttack)
 {
 	Display("Vous tombez face \x85\ un gobelin de niveau 1.");
 	Display("Le gobelin vous attaque f\x82rocement");
 	_actualPlayerLife -= _monsterAttack;
-	cout << "Le joueur perd " << _monsterAttack << " pv ! " << endl << "Il lui reste " << _actualPlayerLife << " pv !" << endl;
+	cout << "Le joueur perd " << _monsterAttack << " pv ! " << endl << "Il reste " << _actualPlayerLife << " pv au joueur !" << endl;
 }
 
 void Healing(int _actualPlayerLife, int _healPotion, int _healPotionPower, int _maxPlayerLife)
