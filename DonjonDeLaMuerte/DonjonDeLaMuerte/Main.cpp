@@ -10,7 +10,7 @@ void PNJ();
 void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack, int& _healPotion, int _healPotionPower, int _maxPlayerLife, int& _monsterPv);
 void PlayerAttackMonster(int _weaponUsed, int& _monsterPv);
 void MonsterAttackPlayer(int& _actualPlayerLife, int _monsterAttack);
-void Healing(int _actualPlayerLife, int _healPotion, int _healPotionPower, int _maxPlayerLife);
+void Healing(int& _actualPlayerLife, int& _healPotion, int _healPotionPower, int _maxPlayerLife, int _scytheAttack, int _monsterAttack, int _monsterPv);
 void Display(string _storyText);
 
 #pragma endregion
@@ -18,7 +18,7 @@ void Display(string _storyText);
 int main()
 {
 	int _healPotion = 3;
-	int _healPotionPower = 30;
+	int _healPotionPower = 40;
 	int _maxPlayerLife = 100;
 	int _actualPlayerLife = 100;
 	int _monsterPv = 100;
@@ -74,6 +74,26 @@ void PNJ()
 	Display("\n");
 }*/
 
+void SadEnding(int _actualPlayerLife, int _healPotion, int _healPotionPower, int _maxPlayerLife, int _scytheAttack, int _monsterAttack, int _monsterPv)
+{
+	Display("Vous \x82\coutez le PNJ et continuez \x85\ marcher tout droit dans ce long couloir de donjon.");
+	Display("Vous tombez face \x85\ face au Dragon de Foudre");
+	Display("Veux-tu te heal avant le combat?");
+	char _ouiOuNon;
+	cin >> _ouiOuNon;
+	switch (_ouiOuNon)
+	{
+	case 'y':
+			Healing(_actualPlayerLife, _healPotion, _healPotionPower, _maxPlayerLife, _scytheAttack, _monsterAttack, _monsterPv);
+			break;
+	case 'n' :
+			break;
+
+	default:break;
+	}
+	
+}
+
 #pragma endregion
 
 void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack, int& _healPotion, int _healPotionPower, int _maxPlayerLife, int& _monsterPv)
@@ -82,7 +102,7 @@ void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack
 	bool _wantToContinue = true;
 	do
 	{
-		Display("Que voulez-vous faire ?");
+		Display("Que voulez-vous faire ? 1- Attaquer 2- se soigner");
 		cin >> _action;
 		switch (_action)
 		{
@@ -91,7 +111,7 @@ void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack
 			_wantToContinue = false;
 			break;
 		case 2:
-			Healing(_actualPlayerLife, _healPotion, _healPotionPower, _maxPlayerLife);
+			Healing(_actualPlayerLife, _healPotion, _healPotionPower, _maxPlayerLife, _scytheAttack, _monsterAttack, _monsterPv);
 			_wantToContinue = false;
 			break;
 
@@ -101,6 +121,16 @@ void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack
 		}
 		MonsterAttackPlayer(_actualPlayerLife, _monsterAttack);
 	} while (_wantToContinue || _monsterPv > 0);
+
+	if (_actualPlayerLife <= 0)
+	{
+		Display("Tu es mort, tu es nul ;) ");
+	}
+	else if (_monsterPv <= 0)
+	{
+		Display("Bravo il est mort ! ");
+		PNJ();
+	}
 }
 
 void PlayerAttackMonster(int _weaponUsed, int& _monsterPv)
@@ -118,29 +148,31 @@ void MonsterAttackPlayer(int& _actualPlayerLife, int _monsterAttack)
 	cout << "Le joueur perd " << _monsterAttack << " pv ! " << endl << "Il reste " << _actualPlayerLife << " pv au joueur !" << endl;
 }
 
-void Healing(int _actualPlayerLife, int _healPotion, int _healPotionPower, int _maxPlayerLife)
+void Healing(int& _actualPlayerLife, int& _healPotion, int _healPotionPower, int _maxPlayerLife, int _scytheAttack, int _monsterAttack, int _monsterPv)
 {
-	cout << "Tu as choisi de te heal." << endl;
+	cout << "Vous avez choisi de vous heal." << endl;
 
 	if (_healPotion == 0)
 	{
 		Display("Vous ne posseder plus de potions. Bonne chance ;)");
+		ActionsPlayer(_scytheAttack, _actualPlayerLife, _monsterAttack, _healPotion, _healPotionPower, _maxPlayerLife, _monsterPv);
 		return;
 	}
 
 	if (_actualPlayerLife + _healPotionPower >= 100)
 	{
 		_actualPlayerLife = 100;
+		_healPotion--;
 	}
 
 	else
 	{
 		_actualPlayerLife += _healPotionPower;
-
+		_healPotion--;
 	}
 
 	cout << "Votre vie est de " << _actualPlayerLife << endl;
-
+	cout << "Il vous reste " << _healPotion << endl;
 }
 
 void Display(string _storyText)
