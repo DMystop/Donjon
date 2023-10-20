@@ -13,7 +13,7 @@ void ActualWeapon();
 void SwapWeapon();
 void FightMovement();
 void Movement();
-void Display(string _storyText)
+void Display(string _storyText);
 
 #pragma endregion
 
