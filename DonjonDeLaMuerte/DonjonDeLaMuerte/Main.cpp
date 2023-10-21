@@ -18,12 +18,14 @@ void Display(string _storyText);
 int main()
 {
 	int _healPotion = 3;
-	int _healPotionPower = 40;
+	int _healPotionPower = 50;
 	int _maxPlayerLife = 100;
 	int _actualPlayerLife = 100;
-	int _monsterPv = 100;
+	int _monsterPv = 40;
 	int _scytheAttack = 30;
-	int _monsterAttack = 20;
+	int _monsterAttack = 10;
+	int _dragonPv = 110;
+	int _dragonAttack = 35;
 	bool _playerAnswer = 0;
 	string _storyText;
 
@@ -60,7 +62,7 @@ void PNJ()
 	Display("Vous rencontrez sur votre chemin un Pnj");
 	Display("");
 	Display("Bonjour \x85\ vous tr\x8As cher. Que faites-vous l\x85\ tout seul ?");
-	Display("C’est tr\x8As dangereux dans le coin. Es-tu l\x85\ pour le dragon ?");
+	Display("C\x27\est tr\x8As dangereux dans le coin. Es-tu l\x85\ pour le dragon ?");
 	Display("Je te conseille de tourner \x85\ tout droit pour le rencontrer.");
 	Display("Au revoir mon p\x27\ tit bonhomme. Va bien crever ! ^^ ");
 	Display("\n");
@@ -74,6 +76,8 @@ void PNJ()
 	Display("\n");
 }*/
 
+#pragma endregion
+
 void SadEnding(int _actualPlayerLife, int _healPotion, int _healPotionPower, int _maxPlayerLife, int _scytheAttack, int _monsterAttack, int _monsterPv)
 {
 	Display("Vous \x82\coutez le PNJ et continuez \x85\ marcher tout droit dans ce long couloir de donjon.");
@@ -84,17 +88,15 @@ void SadEnding(int _actualPlayerLife, int _healPotion, int _healPotionPower, int
 	switch (_ouiOuNon)
 	{
 	case 'y':
-			Healing(_actualPlayerLife, _healPotion, _healPotionPower, _maxPlayerLife, _scytheAttack, _monsterAttack, _monsterPv);
-			break;
-	case 'n' :
-			break;
+		Healing(_actualPlayerLife, _healPotion, _healPotionPower, _maxPlayerLife, _scytheAttack, _monsterAttack, _monsterPv);
+		break;
+	case 'n':
+		break;
 
 	default:break;
 	}
-	
-}
 
-#pragma endregion
+}
 
 void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack, int& _healPotion, int _healPotionPower, int _maxPlayerLife, int& _monsterPv)
 {
@@ -102,7 +104,7 @@ void ActionsPlayer(int _scytheAttack, int& _actualPlayerLife, int _monsterAttack
 	bool _wantToContinue = true;
 	do
 	{
-		Display("Que voulez-vous faire ? 1- Attaquer 2- se soigner");
+		Display("Que voulez-vous faire ? \n 1- Attaquer \n 2- se soigner");
 		cin >> _action;
 		switch (_action)
 		{
