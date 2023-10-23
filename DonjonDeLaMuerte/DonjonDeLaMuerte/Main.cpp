@@ -110,13 +110,13 @@ void SadEnding()
 	Display("Vous sortez insouciant, heureux et victorieux du donjon, n'\x82\coutant pas les paroles du vieux fou.");
 	Display("Vous rentrez avec empressement \x85\ la guilde, pour rapporter votre exploit. Vous parlez joyeusement \x85\ un membre de la guilde.");
 	Display("Celui-ci vous explique que ce donjon servait \x85\ prot\x82\ger le dragon prot\x82\geant la vall\x82\e.");
-	Display("Vous avez donc failli \x85\ votre mission. Vous \x88tes nul.");	
+	Display("Vous avez donc failli \x85\ votre mission. Vous \x88tes nul.");
 }
 
 void ShameEnding()
 {
 	Display("Vous \x88tes suppos\x82\ \x88tre mort mais le dragon a piti\x82\ de vous parce que vous \x88tes nul.");
-	cout << "Celui-ci vous laisse agoniser par terre et vous fait signe de partir loin d\x27\ici après avoir d\x82\rang\x82\ son calme." << endl;
+	cout << "Celui-ci vous laisse agoniser par terre et vous fait signe de partir loin d\x27\ici apr\x8As avoir d\x82rang\x82\ son calme." << endl;
 	Display("Vous rentrez d\x82\confit \x85\ la guilde, vous annoncez votre \x82\chec cuisant.");
 	Display("Vous vous faites sermonner par votre guilde car b\x88ta comme vous \x88tes, vous vous \x88tes tromp\x82\ de donjon.");
 	Display("Vous avez donc failli \x85\ votre mission. Vous \x88tes nul.");
